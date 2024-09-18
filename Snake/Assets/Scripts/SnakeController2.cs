@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
 
-public class SnakeController : MonoBehaviour
+public class SnakeController2: MonoBehaviour
 {
     private Vector2 _areaLimit = new Vector2(13, 2);
 
@@ -25,18 +25,15 @@ public class SnakeController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A) && _direction != Vector2.right || Input.GetKeyDown(KeyCode.LeftArrow) && _direction != Vector2.right)
         {
             _direction = Vector2.left;
-        }
-        else if (Input.GetKeyDown(KeyCode.S) && _direction != Vector2.up || Input.GetKeyDown(KeyCode.DownArrow) && _direction != Vector2.up)
+        }else if (Input.GetKeyDown(KeyCode.S) && _direction != Vector2.up || Input.GetKeyDown(KeyCode.DownArrow) && _direction != Vector2.up)
         {
             _direction = Vector2.down;
-        }
-        else if (Input.GetKeyDown(KeyCode.D) && _direction != Vector2.left || Input.GetKeyDown(KeyCode.RightArrow) && _direction != Vector2.left)
+        }else if (Input.GetKeyDown(KeyCode.D) && _direction != Vector2.left || Input.GetKeyDown(KeyCode.RightArrow) && _direction != Vector2.left)
         {
             _direction = Vector2.right;
-        }
-        else if (Input.GetKeyDown(KeyCode.W) && _direction != Vector2.down || Input.GetKeyDown(KeyCode.UpArrow) && _direction != Vector2.down)
+        }else if (Input.GetKeyDown(KeyCode.W) && _direction != Vector2.down || Input.GetKeyDown(KeyCode.UpArrow) && _direction != Vector2.down)
         {
-            _direction = Vector2.up;
+            _direction = Vector2.up;  
         }
     }
 
@@ -45,14 +42,14 @@ public class SnakeController : MonoBehaviour
     {
         while (true)
         {
-
+            
             var position = transform.position;
-            position += (Vector3)_direction;
+            position +=(Vector3) _direction;
             position.x = Mathf.RoundToInt(position.x);
             position.y = Mathf.RoundToInt(position.y);
             transform.position = position;
             yield return new WaitForSeconds(speed);
-
+            
 
         }
     }
@@ -62,12 +59,12 @@ public class SnakeController : MonoBehaviour
         if (other.CompareTag("Food"))
         {
             Grow();
-
+            
         }
 
         if (other.CompareTag("Wall"))
         {
-            Death();
+            Death();                      
         }
     }
     private void Grow()
@@ -75,16 +72,16 @@ public class SnakeController : MonoBehaviour
 
         var tail = Instantiate(tailPrefab);
         ChangePositionFood();
-
+        
 
     }
 
     private void ChangePositionFood()
     {
-        var x = (int)Random.Range(1, _areaLimit.x);
-        var y = (int)Random.Range(1, _areaLimit.y);
+        var x = (int) Random.Range(1, _areaLimit.x);
+        var y = (int) Random.Range(1, _areaLimit.y);
         food.transform.position = new Vector3(x, y, 0);
-
+        
     }
 
 
@@ -92,5 +89,5 @@ public class SnakeController : MonoBehaviour
     {
 
     }
-
+    
 }
