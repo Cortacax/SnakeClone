@@ -4,6 +4,8 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SnakeController : MonoBehaviour
 {
@@ -14,7 +16,8 @@ public class SnakeController : MonoBehaviour
     [SerializeField] private GameObject tailPrefab;
     [SerializeField] private float speed = 1;
     [SerializeField] private TextMeshPro textScore;
-    [SerializeField] private TextMeshPro textGameOver;
+  
+    [SerializeField] private Canvas DeadCanvas;
     private Vector2 _direction = Vector2.down;
     private List<Transform> _snake = new List<Transform> ();
     private int Score
@@ -31,7 +34,8 @@ public class SnakeController : MonoBehaviour
 
     private void Start()
     {
-        textGameOver.enabled = false;
+        
+        DeadCanvas.enabled = false;
         Score = 0;
         ChangePositionFood();
         StartCoroutine(Move());
@@ -64,6 +68,11 @@ public class SnakeController : MonoBehaviour
     {
         while (true)
         {
+            if (_grow)
+            {
+                _grow = false;
+                Grow();
+            }
 
             for (int i = _snake.Count-1; i > 0; i--)
             {
@@ -78,7 +87,7 @@ public class SnakeController : MonoBehaviour
             transform.position = position;
             yield return new WaitForSeconds(speed);
 
-
+           
         }
     }
 
@@ -86,7 +95,8 @@ public class SnakeController : MonoBehaviour
     {
         if (other.CompareTag("Food"))
         {
-            Grow();
+           
+           _grow = true;    
 
         }
 
@@ -98,6 +108,7 @@ public class SnakeController : MonoBehaviour
     private void Grow()
     {
 
+        Score++;
         var tail = Instantiate(tailPrefab);
         ChangePositionFood();
         _snake.Add(tail.transform);
@@ -138,7 +149,7 @@ public class SnakeController : MonoBehaviour
 
     private void Death()
     {
-        textGameOver.enabled = true;
+        DeadCanvas.enabled = true;
         StopAllCoroutines();
     }
 
